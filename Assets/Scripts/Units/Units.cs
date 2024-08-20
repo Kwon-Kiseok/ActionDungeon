@@ -1,4 +1,7 @@
 using UnityEngine;
+using UniRx;
+using DG.Tweening;
+using Cysharp.Threading.Tasks;
 
 public class Units : MonoBehaviour
 {
@@ -28,6 +31,7 @@ public class Units : MonoBehaviour
     public CharacterController CharacterController => _characterController;
 
     private Transform _actionPosition;
+    private Vector3 _unitPosition;
 
     public virtual void Init(string unitName, statData statData) 
     {
@@ -40,6 +44,11 @@ public class Units : MonoBehaviour
         {
             _stateMachine = new StateMachine(this);
         }
+    }
+
+    public void SetUnitPosition(Vector3 unitPosition)
+    {
+        _unitPosition = unitPosition;
     }
 
     public void SetActionPosition(Transform actionPosition)
@@ -58,12 +67,33 @@ public class Units : MonoBehaviour
         _stateMachine.SetState(atkState);
         atkState.SetTargetUnit(targetUnit);
 
-        unitRenderer.DoAttackAnim();
+        this.transform.DOMove(_actionPosition.position, 0.3f).OnComplete(async () =>
+        {
+            unitRenderer.DoAttackAnim();
+            await UniTask.Delay(1000);
+            this.transform.DOMove(_unitPosition, 0.25f);
+        });
     }
 
-    public void Deffence()
+    public void Defence()
     {
-        // _stateMachine.SetState(new DeffenceState());
+        // _stateMachine.SetState(new DefenceState());
+        this.transform.DOMove(_actionPosition.position, 0.3f).OnComplete(async () =>
+        {
+            // unitRenderer.DoAttackAnim();
+            await UniTask.Delay(1000);
+            this.transform.DOMove(_unitPosition, 0.25f);
+        });
+    }
+
+    public void Dodge()
+    {
+        this.transform.DOMove(_actionPosition.position, 0.3f).OnComplete(async () =>
+        {
+            unitRenderer.DoDodgeAnim();
+            await UniTask.Delay(600);
+            this.transform.DOMove(_unitPosition, 0.25f);
+        });
     }
 
     public void Hit()

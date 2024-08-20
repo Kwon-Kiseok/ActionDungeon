@@ -13,4 +13,14 @@ public class CharacterController : MonoBehaviour
         _attackAct.SetTargetUnit(targetUnit);
         _attackAct.Act(actUnit, successRate);
     }
+
+    public void DoDefenceAction(Units actUnit, float successRate)
+    {
+        _defenceAct.Act(actUnit, successRate);
+    }
+
+    public void DoDodgeAction(Units actUnit, float successRate)
+    {
+        _dodgeAct.Act(actUnit, successRate);
+    }
 }

@@ -57,6 +57,7 @@ public class BattleManager : MonoBehaviour
     {
         _currentEnemy = nextEnemy;
         _currentEnemy.SetActionPosition(_enemyActionPosition);
+        _currentEnemy.SetUnitPosition(_enemySpawnPosition.position);
     }
 
     private void AttackActionEvent()
@@ -68,11 +69,11 @@ public class BattleManager : MonoBehaviour
 
     private void DefenceActionEvent()
     {
-
+        _player.CharacterController.DoDefenceAction(_player, _player.GetStatData().luk);
     }
 
     private void DodgeActionEvent()
     {
-
+        _player.CharacterController.DoDodgeAction(_player, _player.GetStatData().luk);
     }
 }

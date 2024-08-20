@@ -18,5 +18,6 @@ public class GameInitializer : MonoBehaviour
     public void Start()
     {
         _player = _playerSpawner.SpawnPlayer(playerSpawnPosition);
+        _player.SetUnitPosition(playerSpawnPosition.position);
     }
 }

@@ -1,16 +1,22 @@
 using UnityEngine;
 
-public class DodgeAct : MonoBehaviour
+public class DodgeAct : IAction
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Act(Units actUnit, float successRate)
     {
-        
-    }
+        if (!SuccessRateCalculator.CalculateSucess(successRate))
+        {
+            Debug.Log("Dodge Action Fail");
+            // AP 1È¹µæ
+            if (actUnit is Player)
+            {
+                Debug.Log("Action Point + 1");
+            }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            return;
+        }
+
+        Debug.Log("Do Dodge");
+        actUnit.Dodge();
     }
 }

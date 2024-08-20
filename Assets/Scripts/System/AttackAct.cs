@@ -10,10 +10,15 @@ public class AttackAct : IAction
 
     public void Act(Units actUnit, float successRate)
     {
-        if(!CalculateSucess(successRate))
+        if(!SuccessRateCalculator.CalculateSucess(successRate))
         {
             Debug.Log("Attack Action Fail");
             // AP 1È¹µæ
+            if(actUnit is Player)
+            {
+                Debug.Log("Action Point + 1");
+            }
+
             return; 
         }
 
@@ -25,15 +30,4 @@ public class AttackAct : IAction
     {
         _targetUnit = targetUnit;
     }
-    
-    private bool CalculateSucess(float successRate)
-    {
-        float success = UnityEngine.Random.Range(0.0f, 1.0f);
-
-        if(success >= (1.0f - successRate))
-        {
-            return true;
-        }
-        return false;
-    }
-} 
+}

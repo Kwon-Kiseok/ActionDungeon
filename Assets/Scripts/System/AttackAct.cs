@@ -18,7 +18,7 @@ public class AttackAct : IAction
             {
                 Debug.Log("Action Point + 1");
             }
-
+            actUnit.ActionFail();
             return; 
         }
 

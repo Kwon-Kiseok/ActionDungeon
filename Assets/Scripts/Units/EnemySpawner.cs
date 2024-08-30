@@ -12,8 +12,6 @@ public class EnemySpawner
         var enemyInstance = Addressables.InstantiateAsync(enemyKey, spawnParentTransform).WaitForCompletion();
         enemy = enemyInstance.GetComponent<Enemy>();
         enemy.Init(enemy.unitName, new Units.statData(10, 3, 1, 0.5f));
-        enemy.unitRenderer.GetUnitStatUI().SetStatus(enemy.GetStatData());
         return enemy;
     }
-
 }

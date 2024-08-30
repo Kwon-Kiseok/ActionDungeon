@@ -18,6 +18,9 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private Transform _playerActionPosition;
     [SerializeField] private Transform _enemyActionPosition;
 
+    [Header("Unit Stat UIs")]
+    [SerializeField] private UnitStatUIPanel _unitStatUIPanel;
+
     [Header("Action Buttons")]
     [SerializeField] private ActionButton attackActionBtn;
     [SerializeField] private ActionButton defenceActionBtn;
@@ -36,6 +39,7 @@ public class BattleManager : MonoBehaviour
         {
             _player = _gameInitializer.Player;
             _player.SetActionPosition(_playerActionPosition);
+            _unitStatUIPanel.InitializeUnitStatUI(_player);
         }
 
         if(_currentEnemy is null)
@@ -58,6 +62,8 @@ public class BattleManager : MonoBehaviour
         _currentEnemy = nextEnemy;
         _currentEnemy.SetActionPosition(_enemyActionPosition);
         _currentEnemy.SetUnitPosition(_enemySpawnPosition.position);
+
+        _unitStatUIPanel.InitializeUnitStatUI(_currentEnemy);
     }
 
     private void AttackActionEvent()
@@ -65,15 +71,18 @@ public class BattleManager : MonoBehaviour
         // 액션 버튼이 눌렸을 때 플레이어와 적의 액션 지정
         // ex. Attack 버튼이 눌리면 플레이어는 Attack, 적은 랜덤 액션 수행
         _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetStatData().luk);
+        _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
     }
 
     private void DefenceActionEvent()
     {
         _player.CharacterController.DoDefenceAction(_player, _player.GetStatData().luk);
+        _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
     }
 
     private void DodgeActionEvent()
     {
         _player.CharacterController.DoDodgeAction(_player, _player.GetStatData().luk);
+        _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
     }
 }

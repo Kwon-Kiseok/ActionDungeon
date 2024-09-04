@@ -6,6 +6,7 @@ public class BattleManager : MonoBehaviour
 {
     // 플레이어와 적 매칭
     // 플레이어와 적 전투 프로세스 진행
+    // 플레이어와 적의 행동 결과값에 따라서 판정 적용
     // 사망 판별
 
     private Player _player;
@@ -73,7 +74,7 @@ public class BattleManager : MonoBehaviour
         _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetStatData().luk);
         _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
     }
-
+    
     private void DefenceActionEvent()
     {
         _player.CharacterController.DoDefenceAction(_player, _player.GetStatData().luk);

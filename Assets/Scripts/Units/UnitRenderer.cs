@@ -47,6 +47,26 @@ public class UnitRenderer : MonoBehaviour
         });
     }
 
+    public void DoHitAnim()
+    {
+        // 흰색 or 붉은색 + 반투명으로 이미지가 깜빡 거리는 연출이 들어가면 좋을 것 같음
+        // ex. 록맨 피격 연출
+        
+        spriteRenderer.color = Color.red;
+
+        Sequence seq = DOTween.Sequence();
+
+        seq.Append(spriteRenderer.DOFade(0.2f, 0.1f))
+            .Append(spriteRenderer.DOFade(1f, 0.1f))
+            .SetLoops(3)
+            .OnComplete(() => {
+                spriteRenderer.color = Color.white;
+            });
+
+        seq.Play();
+    }
+
+
     public void DoActionFail()
     {
         FailTextAnim();

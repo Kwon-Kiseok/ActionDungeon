@@ -9,7 +9,6 @@ public class PlayerSpawner
         var playerInstance = Addressables.InstantiateAsync("Player/Player_Object", spawnParentTransform).WaitForCompletion();
         Player player = playerInstance.GetComponent<Player>();
         player.Init(player.unitName, new Units.statData(10, 3, 1, 0.5f));
-        // player.unitRenderer.GetUnitStatUI().SetStatus(player.GetStatData());
 
         return player;
     }

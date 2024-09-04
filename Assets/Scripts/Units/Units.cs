@@ -22,6 +22,10 @@ public class Units : MonoBehaviour
         }
     }
     [SerializeField] private statData _statData;
+
+    private int _actionPoint = 0;
+    public int ActionPoint => _actionPoint;
+
     public UnitRenderer unitRenderer;
 
     private StateMachine _stateMachine;
@@ -61,6 +65,20 @@ public class Units : MonoBehaviour
         return _statData;
     }
 
+    public void AddActionPoint(int addPoint)
+    {
+        _actionPoint += addPoint;
+        if(_actionPoint > 3)
+        {
+            _actionPoint = 3;
+        }
+    }
+
+    public void UseActionPoint()
+    {
+        _actionPoint = 0;
+    }
+
     public void Attack(Units targetUnit)
     {
         AttackState atkState = new AttackState();
@@ -70,6 +88,7 @@ public class Units : MonoBehaviour
         this.transform.DOMove(_actionPosition.position, 0.3f).OnComplete(async () =>
         {
             unitRenderer.DoAttackAnim();
+            _stateMachine.DoExecuteState();
             await UniTask.Delay(1000);
             this.transform.DOMove(_unitPosition, 0.25f);
         });
@@ -97,9 +116,13 @@ public class Units : MonoBehaviour
 
     public void ActionFail()
     {
+        FailState failState = new FailState();
+        _stateMachine.SetState(failState);
+
         this.transform.DOMove(_actionPosition.position, 0.3f).OnComplete(async () =>
         {
             unitRenderer.DoActionFail();
+            _stateMachine.DoExecuteState();
             await UniTask.Delay(1000);
             this.transform.DOMove(_unitPosition, 0.25f);
         });
@@ -107,7 +130,7 @@ public class Units : MonoBehaviour
 
     public void Hit()
     {
-
+        unitRenderer.DoHitAnim();
     }
 
     public void Dead()

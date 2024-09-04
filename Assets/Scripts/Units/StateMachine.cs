@@ -15,8 +15,11 @@ public class StateMachine
         {
             return;
         }
+        
+        // Prev state is over
+        DoExitState();
 
-        CurrentState?.ExitState();
+        // New state allocate
         CurrentState = state;
         CurrentState.ChangeUnit(this._units);
     }
@@ -28,5 +31,10 @@ public class StateMachine
         {
             CurrentState.ExecuteState();
         }
+    }
+
+    public void DoExitState()
+    {
+        CurrentState = null;
     }
 }

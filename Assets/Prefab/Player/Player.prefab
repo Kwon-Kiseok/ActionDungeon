@@ -399,7 +399,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 3279592506173864073}
   animator: {fileID: 372124929512600957}
-  unitStatUI: {fileID: 0}
   failText: {fileID: 2182664712254013297}
 --- !u!1 &7987591014584130510
 GameObject:

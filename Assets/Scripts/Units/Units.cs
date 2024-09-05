@@ -96,9 +96,13 @@ public class Units : MonoBehaviour
 
     public void Defence()
     {
+        DefenceState defenceState = new DefenceState();
+        _stateMachine.SetState(defenceState);
+
         this.transform.DOMove(_actionPosition.position, 0.3f).OnComplete(async () =>
         {
             unitRenderer.DoDefenceAnim();
+            _stateMachine.DoExecuteState();
             await UniTask.Delay(1000);
             this.transform.DOMove(_unitPosition, 0.25f);
         });
@@ -106,9 +110,13 @@ public class Units : MonoBehaviour
 
     public void Dodge()
     {
+        DodgeState dodgeState = new DodgeState();
+        _stateMachine.SetState(dodgeState);
+
         this.transform.DOMove(_actionPosition.position, 0.3f).OnComplete(async () =>
         {
             unitRenderer.DoDodgeAnim();
+            _stateMachine.DoExecuteState();
             await UniTask.Delay(600);
             this.transform.DOMove(_unitPosition, 0.25f);
         });
@@ -130,11 +138,17 @@ public class Units : MonoBehaviour
 
     public void Hit()
     {
+        if(_statData.hp <= 0)
+        {
+            Dead();
+            return;
+        }
+
         unitRenderer.DoHitAnim();
     }
 
     public void Dead()
     {
-        
+        Debug.Log(unitName + " is Dead");
     }
 }

@@ -37,6 +37,8 @@ public class AttackState : IState
         else if(_targetUnit.StateMachine.CurrentState is DefenceState)
         {
             Debug.Log(_targetUnit.unitName + " do defence");
+            float defenceHitDamage = Mathf.Round(DamageCalculator.HitDamageCalculate(_unit, _targetUnit) * 0.3f);
+            _targetUnit.Hit(defenceHitDamage);
         }
         else
         {

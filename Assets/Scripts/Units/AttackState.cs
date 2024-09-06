@@ -32,7 +32,7 @@ public class AttackState : IState
         if(_targetUnit.StateMachine.CurrentState is AttackState || _targetUnit.StateMachine.CurrentState is FailState)
         {
             Debug.Log(_targetUnit.unitName + " hit to " + _unit.unitName);
-            _targetUnit.Hit();
+            _targetUnit.Hit(DamageCalculator.HitDamageCalculate(_unit, _targetUnit));
         }
         else if(_targetUnit.StateMachine.CurrentState is DefenceState)
         {

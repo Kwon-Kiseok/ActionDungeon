@@ -136,8 +136,9 @@ public class Units : MonoBehaviour
         });
     }
 
-    public void Hit()
+    public void Hit(float hitDamage)
     {
+        _statData.hp -= hitDamage;
         if(_statData.hp <= 0)
         {
             Dead();

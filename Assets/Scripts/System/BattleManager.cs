@@ -73,17 +73,23 @@ public class BattleManager : MonoBehaviour
         // ex. Attack 버튼이 눌리면 플레이어는 Attack, 적은 랜덤 액션 수행
         _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetStatData().luk);
         _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
+
+        _unitStatUIPanel.UpdateUnitStatUI(_player, _currentEnemy);
     }
     
     private void DefenceActionEvent()
     {
         _player.CharacterController.DoDefenceAction(_player, _player.GetStatData().luk);
         _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
+
+        _unitStatUIPanel.UpdateUnitStatUI(_player, _currentEnemy);
     }
 
     private void DodgeActionEvent()
     {
         _player.CharacterController.DoDodgeAction(_player, _player.GetStatData().luk);
         _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
+
+        _unitStatUIPanel.UpdateUnitStatUI(_player, _currentEnemy);
     }
 }

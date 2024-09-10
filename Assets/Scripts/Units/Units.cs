@@ -26,6 +26,9 @@ public class Units : MonoBehaviour
     private int _actionPoint = 0;
     public int ActionPoint => _actionPoint;
 
+    private bool _isAlive = true;
+    public bool IsAlive => _isAlive;
+
     public UnitRenderer unitRenderer;
 
     private StateMachine _stateMachine;
@@ -33,6 +36,8 @@ public class Units : MonoBehaviour
 
     [SerializeField] private CharacterController _characterController;
     public CharacterController CharacterController => _characterController;
+
+    public Subject<Unit> OnActionEnd = new Subject<Unit>();
 
     private Transform _actionPosition;
     private Vector3 _unitPosition;
@@ -89,8 +94,13 @@ public class Units : MonoBehaviour
         {
             unitRenderer.DoAttackAnim();
             _stateMachine.DoExecuteState();
-            await UniTask.Delay(1000);
-            this.transform.DOMove(_unitPosition, 0.25f);
+            OnActionEnd.OnNext(Unit.Default);
+
+            if (IsAlive)
+            {
+                await UniTask.Delay(1000);
+                this.transform.DOMove(_unitPosition, 0.25f);
+            }
         });
     }
 
@@ -103,8 +113,13 @@ public class Units : MonoBehaviour
         {
             unitRenderer.DoDefenceAnim();
             _stateMachine.DoExecuteState();
-            await UniTask.Delay(1000);
-            this.transform.DOMove(_unitPosition, 0.25f);
+            OnActionEnd.OnNext(Unit.Default);
+
+            if (IsAlive)
+            {
+                await UniTask.Delay(1000);
+                this.transform.DOMove(_unitPosition, 0.25f);
+            }
         });
     }
 
@@ -117,6 +132,7 @@ public class Units : MonoBehaviour
         {
             unitRenderer.DoDodgeAnim();
             _stateMachine.DoExecuteState();
+            OnActionEnd.OnNext(Unit.Default);
             await UniTask.Delay(600);
             this.transform.DOMove(_unitPosition, 0.25f);
         });
@@ -131,8 +147,13 @@ public class Units : MonoBehaviour
         {
             unitRenderer.DoActionFail();
             _stateMachine.DoExecuteState();
-            await UniTask.Delay(1000);
-            this.transform.DOMove(_unitPosition, 0.25f);
+            OnActionEnd.OnNext(Unit.Default);
+
+            if (IsAlive)
+            {
+                await UniTask.Delay(1000);
+                this.transform.DOMove(_unitPosition, 0.25f);
+            }
         });
     }
 
@@ -150,6 +171,8 @@ public class Units : MonoBehaviour
 
     public void Dead()
     {
+        _isAlive = false;
         Debug.Log(unitName + " is Dead");
+        unitRenderer.DoDeathAnim();
     }
 }

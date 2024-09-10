@@ -17,6 +17,7 @@ public class DodgeAct : IAction
         }
 
         Debug.Log("Do Dodge");
+        actUnit.UseActionPoint();
         actUnit.Dodge();
     }
 }

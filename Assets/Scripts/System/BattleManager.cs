@@ -41,6 +41,11 @@ public class BattleManager : MonoBehaviour
             _player = _gameInitializer.Player;
             _player.SetActionPosition(_playerActionPosition);
             _unitStatUIPanel.InitializeUnitStatUI(_player);
+
+            _player.OnActionEnd.Subscribe((_) =>
+            {
+                _unitStatUIPanel.UpdateUnitStatUI(_player, _currentEnemy);
+            });
         }
 
         if(_currentEnemy is null)
@@ -65,31 +70,28 @@ public class BattleManager : MonoBehaviour
         _currentEnemy.SetUnitPosition(_enemySpawnPosition.position);
 
         _unitStatUIPanel.InitializeUnitStatUI(_currentEnemy);
+
+        _currentEnemy.OnActionEnd.Subscribe((_) =>
+        {
+            _unitStatUIPanel.UpdateUnitStatUI(_player, _currentEnemy);
+        });
     }
 
     private void AttackActionEvent()
     {
-        // 액션 버튼이 눌렸을 때 플레이어와 적의 액션 지정
-        // ex. Attack 버튼이 눌리면 플레이어는 Attack, 적은 랜덤 액션 수행
         _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetStatData().luk);
         _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
-
-        _unitStatUIPanel.UpdateUnitStatUI(_player, _currentEnemy);
     }
     
     private void DefenceActionEvent()
     {
         _player.CharacterController.DoDefenceAction(_player, _player.GetStatData().luk);
         _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
-
-        _unitStatUIPanel.UpdateUnitStatUI(_player, _currentEnemy);
     }
 
     private void DodgeActionEvent()
     {
         _player.CharacterController.DoDodgeAction(_player, _player.GetStatData().luk);
         _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
-
-        _unitStatUIPanel.UpdateUnitStatUI(_player, _currentEnemy);
     }
 }

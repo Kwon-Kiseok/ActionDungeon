@@ -23,6 +23,7 @@ public class AttackAct : IAction
         }
 
         Debug.Log("Do Attack");
+        actUnit.UseActionPoint();
         actUnit.Attack(_targetUnit);
     }
 

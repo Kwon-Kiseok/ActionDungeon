@@ -17,6 +17,7 @@ public class DefenceAct : IAction
         }
 
         Debug.Log("Do Defence");
+        actUnit.UseActionPoint();
         actUnit.Defence();
     }
 }

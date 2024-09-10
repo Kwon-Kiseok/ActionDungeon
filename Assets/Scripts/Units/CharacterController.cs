@@ -9,33 +9,38 @@ public class CharacterController : MonoBehaviour
     public void DoAttackAction(Units actUnit, Units targetUnit, float successRate)
     {
         _attackAct.SetTargetUnit(targetUnit);
-        _attackAct.Act(actUnit, successRate);
+        float calculateSuccessRate = successRate + (0.25f * actUnit.ActionPoint);
+        _attackAct.Act(actUnit, calculateSuccessRate);
     }
 
     public void DoDefenceAction(Units actUnit, float successRate)
     {
-        _defenceAct.Act(actUnit, successRate);
+        float calculateSuccessRate = successRate + (0.25f * actUnit.ActionPoint);
+        _defenceAct.Act(actUnit, calculateSuccessRate);
     }
 
     public void DoDodgeAction(Units actUnit, float successRate)
     {
-        _dodgeAct.Act(actUnit, successRate);
+        float calculateSuccessRate = successRate + (0.25f * actUnit.ActionPoint);
+        _dodgeAct.Act(actUnit, calculateSuccessRate);
     }
 
     public void RandomAction(Units actUnit, Units targetUnit, float successRate)
     {
         int actionNumber = UnityEngine.Random.Range(0, 3);
 
-        switch(actionNumber)
+        float calculateSuccessRate = successRate + (0.25f * actUnit.ActionPoint);
+
+        switch (actionNumber)
         {
             case 0:
-                DoAttackAction(actUnit, targetUnit, successRate);
+                DoAttackAction(actUnit, targetUnit, calculateSuccessRate);
             break;
             case 1:
-                DoDefenceAction(actUnit, successRate);
+                DoDefenceAction(actUnit, calculateSuccessRate);
             break;
             case 2:
-                DoDodgeAction(actUnit, successRate);
+                DoDodgeAction(actUnit, calculateSuccessRate);
             break;
         }
     }

@@ -16,6 +16,8 @@ public class UnitRenderer : MonoBehaviour
         {
             spriteRenderer.sprite = sprite;
         }
+
+        animator.SetBool("IsAlive", true);
     }
 
     public Animator GetAnimator()
@@ -66,6 +68,10 @@ public class UnitRenderer : MonoBehaviour
         seq.Play();
     }
 
+    public void DoDeathAnim()
+    {
+        animator.SetBool("IsAlive", false);
+    }
 
     public void DoActionFail()
     {

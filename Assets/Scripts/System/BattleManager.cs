@@ -1,6 +1,7 @@
 using UnityEngine;
 using UniRx;
 using Zenject;
+using UniRx.Triggers;
 
 public class BattleManager : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class BattleManager : MonoBehaviour
 
     private EnemySpawner _enemySpawner;
     private GameInitializer _gameInitializer;
+
+    private bool _isBattleEnd = false;
     
     [SerializeField] private Transform _enemySpawnPosition;
     [SerializeField] private Transform _playerActionPosition;
@@ -36,7 +39,32 @@ public class BattleManager : MonoBehaviour
 
     public void Start()
     {
-        if(_player is null)
+        InitPlayer();
+        InitEnemy();
+        UniRxUpdate();
+        ButtonsEventAllocate();
+    }
+
+    // 기존의 Update를 대체하여 사용할 UniRx의 업데이트
+    // 사용 이유 -> 기존의 Monobehaviour의 업데이트보다 성능적 측면이 좋음
+    private void UniRxUpdate()
+    {
+        this.UpdateAsObservable().Subscribe((_) =>
+        {
+            CheckBattleEnd();
+        }).AddTo(this);
+    }
+
+    private void ButtonsEventAllocate()
+    {
+        attackActionBtn.OnClickEvent += AttackActionEvent;
+        defenceActionBtn.OnClickEvent += DefenceActionEvent;
+        dodgeActionBtn.OnClickEvent += DodgeActionEvent;
+    }
+
+    private void InitPlayer()
+    {
+        if (_player is null)
         {
             _player = _gameInitializer.Player;
             _player.SetActionPosition(_playerActionPosition);
@@ -47,20 +75,23 @@ public class BattleManager : MonoBehaviour
                 _unitStatUIPanel.UpdateUnitStatUI(_player, _currentEnemy);
             });
         }
+    }
 
-        if(_currentEnemy is null)
+    private void InitEnemy()
+    {
+        if (_currentEnemy is null)
         {
             MatchingEnemy(_enemySpawner?.SpawnNewEnemy("Enemy/Enemy_Goblin", _enemySpawnPosition));
         }
-
-        ButtonsEventAllocate();
     }
 
-    private void ButtonsEventAllocate()
+    private void MatchingNewEnemy()
     {
-        attackActionBtn.OnClickEvent += AttackActionEvent;
-        defenceActionBtn.OnClickEvent += DefenceActionEvent;
-        dodgeActionBtn.OnClickEvent += DodgeActionEvent;
+        if (_currentEnemy is null)
+        {
+            // enemyKey 단계에 맞게 변경
+            MatchingEnemy(_enemySpawner?.SpawnNewEnemy("Enemy/Enemy_Goblin", _enemySpawnPosition));
+        }
     }
 
     private void MatchingEnemy(Enemy nextEnemy)
@@ -77,20 +108,61 @@ public class BattleManager : MonoBehaviour
         });
     }
 
+    private void CheckBattleEnd()
+    {
+        if(_isBattleEnd)
+        {
+            return;
+        }
+
+        if (_player is not null && _currentEnemy is not null)
+        {
+            if (_player.IsAlive && !_currentEnemy.IsAlive)
+            {
+                Debug.Log("Player Win !!");
+                _isBattleEnd = true;
+                // 배틀 결과 정산
+                // 플레이어 전투 보상 및 성장 선택
+                // 다음 배틀 전 새로운 적 생성
+            }
+            else if (!_player.IsAlive)
+            {
+                Debug.Log("Player Lose TT");
+                _isBattleEnd = true;
+                // 게임 종료
+            }
+        }
+    }
+
     private void AttackActionEvent()
     {
+        if(_isBattleEnd)
+        {
+            return;
+        }
+
         _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetStatData().luk);
         _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
     }
     
     private void DefenceActionEvent()
     {
+        if (_isBattleEnd)
+        {
+            return;
+        }
+
         _player.CharacterController.DoDefenceAction(_player, _player.GetStatData().luk);
         _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
     }
 
     private void DodgeActionEvent()
     {
+        if (_isBattleEnd)
+        {
+            return;
+        }
+
         _player.CharacterController.DoDodgeAction(_player, _player.GetStatData().luk);
         _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
     }

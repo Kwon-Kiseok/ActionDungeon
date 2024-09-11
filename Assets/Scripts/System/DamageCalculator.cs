@@ -19,7 +19,7 @@ public static class DamageCalculator
         }
 
         HitDamage = (attackerStatData.atk - (defender.GetStatData().def * 0.5f)) * 0.5f + randHitDamage;
-        if(HitDamage < 0)
+        if(HitDamage < 1)
         {
             HitDamage = 1;
         }

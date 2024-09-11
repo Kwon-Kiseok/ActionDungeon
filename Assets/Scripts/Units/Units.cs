@@ -53,6 +53,15 @@ public class Units : MonoBehaviour
         {
             _stateMachine = new StateMachine(this);
         }
+
+        // 사망 후 유닛 오브젝트 파괴 -> ? BattleManager에서 CurrentEnemy 제거도 해야 함
+        unitRenderer.DeleteUnitSubject.Subscribe((_) =>
+        {
+            if (IsAlive == false)
+            {
+                Destroy(this);
+            }
+        }).AddTo(this);
     }
 
     public void SetUnitPosition(Vector3 unitPosition)

@@ -5,10 +5,12 @@ using UniRx.Triggers;
 
 public class BattleManager : MonoBehaviour
 {
-    // 플레이어와 적 매칭
-    // 플레이어와 적 전투 프로세스 진행
-    // 플레이어와 적의 행동 결과값에 따라서 판정 적용
-    // 사망 판별
+    public enum BattleState
+    {
+        READY,
+        PROGRESS,
+        END
+    }
 
     private Player _player;
     private Enemy _currentEnemy;
@@ -16,7 +18,8 @@ public class BattleManager : MonoBehaviour
     private EnemySpawner _enemySpawner;
     private GameInitializer _gameInitializer;
 
-    private bool _isBattleEnd = false;
+    private BattleState _battleState = BattleState.READY;
+    public BattleState BState => _battleState;
     
     [SerializeField] private Transform _enemySpawnPosition;
     [SerializeField] private Transform _playerActionPosition;
@@ -110,7 +113,7 @@ public class BattleManager : MonoBehaviour
 
     private void CheckBattleEnd()
     {
-        if(_isBattleEnd)
+        if(BState != BattleState.PROGRESS)
         {
             return;
         }
@@ -120,7 +123,7 @@ public class BattleManager : MonoBehaviour
             if (_player.IsAlive && !_currentEnemy.IsAlive)
             {
                 Debug.Log("Player Win !!");
-                _isBattleEnd = true;
+                _battleState = BattleState.END;
                 // 배틀 결과 정산
                 // 플레이어 전투 보상 및 성장 선택
                 // 다음 배틀 전 새로운 적 생성
@@ -128,41 +131,49 @@ public class BattleManager : MonoBehaviour
             else if (!_player.IsAlive)
             {
                 Debug.Log("Player Lose TT");
-                _isBattleEnd = true;
+                _battleState = BattleState.END;
                 // 게임 종료
             }
         }
     }
 
-    private void AttackActionEvent()
+    private void PrepareNextBattle()
     {
-        if(_isBattleEnd)
+        if(BState != BattleState.END)
         {
             return;
         }
 
+        _battleState = BattleState.READY;
+        MatchingNewEnemy();
+    }
+
+    private void AttackActionEvent()
+    {
+        if (BState != BattleState.PROGRESS)
+        {
+            return;
+        }
         _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetStatData().luk);
         _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
     }
     
     private void DefenceActionEvent()
     {
-        if (_isBattleEnd)
+        if (BState != BattleState.PROGRESS)
         {
             return;
         }
-
         _player.CharacterController.DoDefenceAction(_player, _player.GetStatData().luk);
         _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
     }
 
     private void DodgeActionEvent()
     {
-        if (_isBattleEnd)
+        if (BState != BattleState.PROGRESS)
         {
             return;
         }
-
         _player.CharacterController.DoDodgeAction(_player, _player.GetStatData().luk);
         _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
     }

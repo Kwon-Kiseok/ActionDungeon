@@ -1,4 +1,5 @@
 using UnityEngine;
+using UniRx;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
 using TMPro;
@@ -9,7 +10,20 @@ public class UnitRenderer : MonoBehaviour
     public SpriteRenderer SpriteRenderer { get { return spriteRenderer; } }
     [SerializeField] private Animator animator;
     [SerializeField] private TextMeshProUGUI failText;
-    
+
+    public Subject<Unit> DeathAnimationEndSubject = new Subject<Unit>();
+    public Subject<Unit> DeleteUnitSubject = new Subject<Unit>();
+
+    private void Start()
+    {
+        // 사망 애니메이션 종료 2초 후 유닛 모습 안보이도록
+        this.DeathAnimationEndSubject.Subscribe(async (_) =>
+        {
+            await UniTask.WaitForSeconds(2f);
+            DeleteUnitSubject.OnNext(Unit.Default);
+        }).AddTo(this);
+    }
+
     public void SetUnitSprite(Sprite sprite)
     {
         if (spriteRenderer != null)
@@ -71,6 +85,11 @@ public class UnitRenderer : MonoBehaviour
     public void DoDeathAnim()
     {
         animator.SetBool("IsAlive", false);
+    }
+
+    public void DeathAnimationEndTrigger()
+    {
+        DeathAnimationEndSubject.OnNext(Unit.Default);
     }
 
     public void DoActionFail()

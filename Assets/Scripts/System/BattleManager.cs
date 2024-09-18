@@ -33,6 +33,8 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private ActionButton defenceActionBtn;
     [SerializeField] private ActionButton dodgeActionBtn;
 
+    [SerializeField] private ActionEnhanceBonus actionEnhanceBonus;
+
     [Inject]
     public void Inject(GameInitializer gameInitializer, EnemySpawner enemySpawner)
     {
@@ -48,8 +50,6 @@ public class BattleManager : MonoBehaviour
         ButtonsEventAllocate();
     }
 
-    // ������ Update�� ��ü�Ͽ� ����� UniRx�� ������Ʈ
-    // ��� ���� -> ������ Monobehaviour�� ������Ʈ���� ������ ������ ����
     private void UniRxUpdate()
     {
         this.UpdateAsObservable().Subscribe((_) =>
@@ -76,7 +76,11 @@ public class BattleManager : MonoBehaviour
             _player.OnActionEnd.Subscribe((_) =>
             {
                 _unitStatUIPanel.UpdateUnitStatUI(_player, _currentEnemy);
-            });
+            }).AddTo(this);
+
+            _player.ActionSuccessSubject.Subscribe((_) => {
+                actionEnhanceBonus.IncreaseSuccessCount();
+            }).AddTo(this);
         }
     }
 
@@ -92,7 +96,6 @@ public class BattleManager : MonoBehaviour
     {
         if (_currentEnemy is null)
         {
-            // enemyKey �ܰ迡 �°� ����
             MatchingEnemy(_enemySpawner?.SpawnNewEnemy("Enemy/Enemy_Goblin", _enemySpawnPosition));
         }
     }
@@ -109,6 +112,9 @@ public class BattleManager : MonoBehaviour
         {
             _unitStatUIPanel.UpdateUnitStatUI(_player, _currentEnemy);
         });
+
+        // 임시
+        _battleState = BattleState.PROGRESS;
     }
 
     private void CheckBattleEnd()
@@ -124,15 +130,11 @@ public class BattleManager : MonoBehaviour
             {
                 Debug.Log("Player Win !!");
                 _battleState = BattleState.END;
-                // ��Ʋ ��� ����
-                // �÷��̾� ���� ���� �� ���� ����
-                // ���� ��Ʋ �� ���ο� �� ����
             }
             else if (!_player.IsAlive)
             {
                 Debug.Log("Player Lose TT");
                 _battleState = BattleState.END;
-                // ���� ����
             }
         }
     }

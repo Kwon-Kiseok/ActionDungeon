@@ -36,7 +36,7 @@ public class SelectOptionUnit : MonoBehaviour
     {
         _isClick = true;
        this.transform.DOScale(1.25f, 1.5f).SetEase(Ease.OutBack).OnComplete(() => {
-           _isClick = false;
+            _isClick = false;
             OnClickSubject.OnNext(Unit.Default);
        });
     }

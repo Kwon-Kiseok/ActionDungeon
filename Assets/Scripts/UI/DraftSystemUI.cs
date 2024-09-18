@@ -23,6 +23,7 @@ public class DraftSystemUI : MonoBehaviour
         foreach(var unit in selectOptionUnits)
         {
             unit.OnClickSubject.Subscribe((_) => {
+                unit.transform.localScale = Vector3.one;
                 CloseUI();
             }).AddTo(this);
         }

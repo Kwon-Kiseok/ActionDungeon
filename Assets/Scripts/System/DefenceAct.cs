@@ -1,4 +1,5 @@
 using UnityEngine;
+using UniRx;
 
 public class DefenceAct : IAction
 {
@@ -7,7 +8,7 @@ public class DefenceAct : IAction
         if (!SuccessRateCalculator.CalculateSucess(successRate))
         {
             Debug.Log("Defence Action Fail");
-            // AP 1È¹µæ
+            // AP 1È¹ï¿½ï¿½
             if (actUnit is Player)
             {
                 Debug.Log("Action Point + 1");
@@ -17,6 +18,11 @@ public class DefenceAct : IAction
         }
 
         Debug.Log("Do Defence");
+        if (actUnit is Player)
+        {
+            Player player = actUnit as Player;
+            player.ActionSuccessSubject.OnNext(Unit.Default);
+        }
         actUnit.UseActionPoint();
         actUnit.Defence();
     }

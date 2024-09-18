@@ -1,4 +1,5 @@
 using System;
+using UniRx;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ public class AttackAct : IAction
         if(!SuccessRateCalculator.CalculateSucess(successRate))
         {
             Debug.Log("Attack Action Fail");
-            // AP 1È¹µæ
+            // AP 1È¹ï¿½ï¿½
             if(actUnit is Player)
             {
                 Debug.Log("Action Point + 1");
@@ -23,6 +24,11 @@ public class AttackAct : IAction
         }
 
         Debug.Log("Do Attack");
+        if (actUnit is Player)
+        {
+            Player player = actUnit as Player;
+            player.ActionSuccessSubject.OnNext(Unit.Default);
+        }
         actUnit.UseActionPoint();
         actUnit.Attack(_targetUnit);
     }

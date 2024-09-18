@@ -5,8 +5,6 @@ using System.Collections.Generic;
 
 public class DraftSystemUI : MonoBehaviour
 {
-    // 3중 1택을 하는 시스템들에 공통으로 사용될 UI
-
     public Subject<Unit> OnSelectSubject = new Subject<Unit>();
     public List<SelectOptionUnit> selectOptionUnits = new List<SelectOptionUnit>();
 
@@ -16,6 +14,18 @@ public class DraftSystemUI : MonoBehaviour
         {
             CloseUI();
         }).AddTo(this);
+
+        RegisterCloseSubjects();
+    }
+
+    private void RegisterCloseSubjects()
+    {
+        foreach(var unit in selectOptionUnits)
+        {
+            unit.OnClickSubject.Subscribe((_) => {
+                CloseUI();
+            }).AddTo(this);
+        }
     }
 
     public void PrepareOptions()

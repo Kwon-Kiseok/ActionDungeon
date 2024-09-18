@@ -48,8 +48,8 @@ public class BattleManager : MonoBehaviour
         ButtonsEventAllocate();
     }
 
-    // ±âÁ¸ÀÇ Update¸¦ ´ëÃ¼ÇÏ¿© »ç¿ëÇÒ UniRxÀÇ ¾÷µ¥ÀÌÆ®
-    // »ç¿ë ÀÌÀ¯ -> ±âÁ¸ÀÇ MonobehaviourÀÇ ¾÷µ¥ÀÌÆ®º¸´Ù ¼º´ÉÀû Ãø¸éÀÌ ÁÁÀ½
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Updateï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ UniRxï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Monobehaviourï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private void UniRxUpdate()
     {
         this.UpdateAsObservable().Subscribe((_) =>
@@ -92,7 +92,7 @@ public class BattleManager : MonoBehaviour
     {
         if (_currentEnemy is null)
         {
-            // enemyKey ´Ü°è¿¡ ¸Â°Ô º¯°æ
+            // enemyKey ï¿½Ü°è¿¡ ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½
             MatchingEnemy(_enemySpawner?.SpawnNewEnemy("Enemy/Enemy_Goblin", _enemySpawnPosition));
         }
     }
@@ -124,15 +124,15 @@ public class BattleManager : MonoBehaviour
             {
                 Debug.Log("Player Win !!");
                 _battleState = BattleState.END;
-                // ¹èÆ² °á°ú Á¤»ê
-                // ÇÃ·¹ÀÌ¾î ÀüÅõ º¸»ó ¹× ¼ºÀå ¼±ÅÃ
-                // ´ÙÀ½ ¹èÆ² Àü »õ·Î¿î Àû »ý¼º
+                // ï¿½ï¿½Æ² ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ² ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             }
             else if (!_player.IsAlive)
             {
                 Debug.Log("Player Lose TT");
                 _battleState = BattleState.END;
-                // °ÔÀÓ Á¾·á
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             }
         }
     }

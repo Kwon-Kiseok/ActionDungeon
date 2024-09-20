@@ -34,6 +34,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private ActionButton dodgeActionBtn;
 
     [SerializeField] private ActionEnhanceBonus actionEnhanceBonus;
+    [SerializeField] private BattleResultUI battleResultUI;
 
     [Inject]
     public void Inject(GameInitializer gameInitializer, EnemySpawner enemySpawner)
@@ -130,11 +131,13 @@ public class BattleManager : MonoBehaviour
             {
                 Debug.Log("Player Win !!");
                 _battleState = BattleState.END;
+                battleResultUI.BattleResultEnable(_player);
             }
             else if (!_player.IsAlive)
             {
                 Debug.Log("Player Lose TT");
                 _battleState = BattleState.END;
+                battleResultUI.BattleResultEnable(_player);
             }
         }
     }

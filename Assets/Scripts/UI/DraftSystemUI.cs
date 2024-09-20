@@ -31,7 +31,7 @@ public class DraftSystemUI : MonoBehaviour
 
     public void PrepareOptions()
     {
-
+        
     }
 
     private void CloseUI()

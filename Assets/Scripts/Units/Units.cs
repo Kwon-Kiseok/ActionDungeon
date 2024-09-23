@@ -13,12 +13,15 @@ public class Units : MonoBehaviour
         public float def;   
         public float luk;
 
-        public statData(float hp, float atk, float def, float luk)
+        public string desc;
+
+        public statData(float hp, float atk, float def, float luk, string desc = null)
         {
             this.hp = hp;
             this.atk = atk;
             this.def = def;
             this.luk = luk;
+            this.desc = desc;
         }
     }
     [SerializeField] private statData _statData;

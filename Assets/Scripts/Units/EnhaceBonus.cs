@@ -10,12 +10,19 @@ public class EnhaceBonus
         LEGENDARY
     }
 
+    private int _id;
     private Units.statData _enhanceStatData;
     private Rarity _rarity;
 
-    public EnhaceBonus(Units.statData enhanceStatData, Rarity rarity)
+    public EnhaceBonus(int ID, Units.statData enhanceStatData, Rarity rarity)
     {
+        _id = ID;
         _enhanceStatData = enhanceStatData;
         _rarity = rarity;
+    }
+
+    public string GetStatName()
+    {
+        return _enhanceStatData.desc;
     }
 }

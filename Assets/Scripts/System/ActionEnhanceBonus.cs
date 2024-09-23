@@ -3,7 +3,6 @@ using UnityEngine;
 public class ActionEnhanceBonus : MonoBehaviour
 {
     [SerializeField] private DraftSystemUI draftSystemUI;
-
     [SerializeField] private SuccessCountUI successCountUI;
 
     // 3 Success Action => 1 Enhance Bonus
@@ -35,7 +34,7 @@ public class ActionEnhanceBonus : MonoBehaviour
     private void ActivateDraftUI()
     {
         draftSystemUI.PrepareOptions();
-        draftSystemUI.gameObject.SetActive(true);
+        draftSystemUI.PanelObject.SetActive(true);
         successCountUI.DeActivateIconImages();
     }
 }

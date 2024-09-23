@@ -8,10 +8,10 @@ public class Units : MonoBehaviour
     public string unitName;
     public struct statData
     {
-        public float hp;    //Ã¼·Â
-        public float atk;   //°ø°Ý·Â
-        public float def;   //¹æ¾î·Â
-        public float luk;   //¿î(È®·ü)
+        public float hp;   
+        public float atk;   
+        public float def;   
+        public float luk;
 
         public statData(float hp, float atk, float def, float luk)
         {
@@ -54,7 +54,7 @@ public class Units : MonoBehaviour
             _stateMachine = new StateMachine(this);
         }
 
-        // »ç¸Á ÈÄ À¯´Ö ¿ÀºêÁ§Æ® ÆÄ±« -> ? BattleManager¿¡¼­ CurrentEnemy Á¦°Åµµ ÇØ¾ß ÇÔ
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ä±ï¿½ -> ? BattleManagerï¿½ï¿½ï¿½ï¿½ CurrentEnemy ï¿½ï¿½ï¿½Åµï¿½ ï¿½Ø¾ï¿½ ï¿½ï¿½
         unitRenderer.DeleteUnitSubject.Subscribe((_) =>
         {
             if (IsAlive == false)

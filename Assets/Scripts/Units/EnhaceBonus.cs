@@ -25,4 +25,9 @@ public class EnhaceBonus
     {
         return _enhanceStatData.desc;
     }
+
+    public Rarity GetRarity()
+    {
+        return _rarity;
+    }
 }

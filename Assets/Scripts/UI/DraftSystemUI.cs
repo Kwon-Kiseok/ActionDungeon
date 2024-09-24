@@ -2,6 +2,7 @@ using UnityEngine;
 using UniRx;
 using System;
 using System.Collections.Generic;
+using Zenject;
 
 public class DraftSystemUI : MonoBehaviour
 {
@@ -9,15 +10,22 @@ public class DraftSystemUI : MonoBehaviour
     public List<SelectOptionUnit> selectOptionUnits = new List<SelectOptionUnit>();
 
     private EnhaceBonusDatabase _enhaceBonusDatabase;
+    private RandomDraftSystem _randomDraftSystem;
 
     [SerializeField] private GameObject _panelObject;
     public GameObject PanelObject => _panelObject;
 
+    [Inject]
+    public void Inject(EnhaceBonusDatabase enhaceBonusDatabase, RandomDraftSystem randomDraftSystem)
+    {
+        _enhaceBonusDatabase = enhaceBonusDatabase;
+        _randomDraftSystem = randomDraftSystem;
+    }
+
     private void Start()
     {
-        _enhaceBonusDatabase = new EnhaceBonusDatabase();
         _enhaceBonusDatabase.Load();
-        
+
         OnSelectSubject.Subscribe((_) =>
         {
             CloseUI();
@@ -41,8 +49,7 @@ public class DraftSystemUI : MonoBehaviour
     {
         foreach (var unit in selectOptionUnits)
         {
-            int randomIndex = UnityEngine.Random.Range(0, _enhaceBonusDatabase.enhaceBonusDataList.Count);
-            EnhaceBonus randomBonus = _enhaceBonusDatabase.enhaceBonusDataList[randomIndex];
+            EnhaceBonus randomBonus = _randomDraftSystem.GetRandomBonus(_enhaceBonusDatabase.enhaceBonusDataList);
             unit.SetOptionInfo(randomBonus);
         }
     }

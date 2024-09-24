@@ -10,11 +10,19 @@ public class GameInstaller : MonoInstaller
         Container.Bind<EnemySpawner>().AsSingle();
         Container.Bind<PlayerSpawner>().AsSingle();
 
+        Container.Bind<RandomDraftSystem>().AsSingle();
+
         InstallHierachyObjects();
+        InstallDatabases();
     }
 
     private void InstallHierachyObjects()
     {
         Container.Bind<BattleManager>().FromComponentInHierarchy().AsSingle();
+    }
+
+    private void InstallDatabases()
+    {
+        Container.Bind<EnhaceBonusDatabase>().AsSingle();
     }
 }

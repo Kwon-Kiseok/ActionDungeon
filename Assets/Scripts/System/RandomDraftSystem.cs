@@ -4,6 +4,16 @@ using System.Collections.Generic;
 
 public class RandomDraftSystem
 {
+    public Dictionary<int, int> enhanceBonusDataIDDictionary = new Dictionary<int, int>();
+
+    public void InitIDDictionary(List<EnhaceBonus> enhanceBonusDataList)
+    {
+        foreach(var enhanceBonus in enhanceBonusDataList)
+        {
+            enhanceBonusDataIDDictionary.Add(enhanceBonus.GetID(), 0);
+        }
+    }
+
     // NORMAL = 0.6  RARE = 0.3 UNIQUE = 0.075  LEGENDARY = 0.025
     private EnhaceBonus.Rarity GetRandomRarity()
     {

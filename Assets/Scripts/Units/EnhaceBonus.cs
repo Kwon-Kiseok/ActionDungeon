@@ -21,6 +21,16 @@ public class EnhaceBonus
         _rarity = rarity;
     }
 
+    public int GetID()
+    {
+        return _id;
+    }
+
+    public Units.statData GetStatData()
+    {
+        return _enhanceStatData;
+    }
+
     public string GetStatName()
     {
         return _enhanceStatData.desc;

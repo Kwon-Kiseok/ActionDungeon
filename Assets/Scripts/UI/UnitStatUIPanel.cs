@@ -12,21 +12,21 @@ public class UnitStatUIPanel : MonoBehaviour
     {
         if(unit is Player)
         {
-            PlayerStatUI.SetStatus(unit.GetStatData());
+            PlayerStatUI.SetStatus(unit.GetTotalStatData());
             PlayerStatUI.SetAPUI(unit.ActionPoint);
         }
         else
         {
-            EnemyStatUI.SetStatus(unit.GetStatData());
+            EnemyStatUI.SetStatus(unit.GetTotalStatData());
             EnemyStatUI.SetAPUI(unit.ActionPoint);
         }
     }
 
     public void UpdateUnitStatUI(Units playerUnit, Units EnemyUnit)
     {
-        PlayerStatUI.SetStatus(playerUnit.GetStatData());
+        PlayerStatUI.SetStatus(playerUnit.GetTotalStatData());
         PlayerStatUI.SetAPUI(playerUnit.ActionPoint);
-        EnemyStatUI.SetStatus(EnemyUnit.GetStatData());
+        EnemyStatUI.SetStatus(EnemyUnit.GetTotalStatData());
         EnemyStatUI.SetAPUI(EnemyUnit.ActionPoint);
     }
 }

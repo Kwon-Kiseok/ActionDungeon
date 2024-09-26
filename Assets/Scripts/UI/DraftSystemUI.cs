@@ -12,6 +12,11 @@ public class DraftSystemUI : MonoBehaviour
     private EnhaceBonusDatabase _enhaceBonusDatabase;
     private RandomDraftSystem _randomDraftSystem;
 
+    public EnhaceBonus selectedBonusStat;
+    public Subject<EnhaceBonus> OnSelectBonusStatSubject = new Subject<EnhaceBonus>();
+
+    private List<int> optionIDList = new List<int>();
+
     [SerializeField] private GameObject _panelObject;
     public GameObject PanelObject => _panelObject;
 
@@ -25,6 +30,7 @@ public class DraftSystemUI : MonoBehaviour
     private void Start()
     {
         _enhaceBonusDatabase.Load();
+        _randomDraftSystem.InitIDDictionary(_enhaceBonusDatabase.enhaceBonusDataList);
 
         OnSelectSubject.Subscribe((_) =>
         {
@@ -36,10 +42,12 @@ public class DraftSystemUI : MonoBehaviour
 
     private void RegisterCloseSubjects()
     {
-        foreach(var unit in selectOptionUnits)
+        foreach (var option in selectOptionUnits)
         {
-            unit.OnClickSubject.Subscribe((_) => {
-                unit.transform.localScale = Vector3.one;
+            option.OnClickSubject.Subscribe((_) =>
+            {
+                OnSelectBonusStatSubject.OnNext(option.GetEnhanceBonus());
+                option.transform.localScale = Vector3.one;
                 CloseUI();
             }).AddTo(this);
         }
@@ -47,10 +55,28 @@ public class DraftSystemUI : MonoBehaviour
 
     public void PrepareOptions()
     {
-        foreach (var unit in selectOptionUnits)
+        optionIDList.Clear();
+
+        foreach (var option in selectOptionUnits)
         {
-            EnhaceBonus randomBonus = _randomDraftSystem.GetRandomBonus(_enhaceBonusDatabase.enhaceBonusDataList);
-            unit.SetOptionInfo(randomBonus);
+            bool isSetOption = false;
+            while (isSetOption == false)
+            {
+                EnhaceBonus randomBonus = _randomDraftSystem.GetRandomBonus(_enhaceBonusDatabase.enhaceBonusDataList);
+
+                if(_randomDraftSystem.enhanceBonusDataIDDictionary[randomBonus.GetID()] == 0)
+                {
+                    _randomDraftSystem.enhanceBonusDataIDDictionary[randomBonus.GetID()] = 1;
+                    optionIDList.Add(randomBonus.GetID());
+                    option.SetOptionInfo(randomBonus);
+                    isSetOption = true;
+                }
+            }
+        }
+
+        foreach(var ID in optionIDList)
+        {
+            _randomDraftSystem.enhanceBonusDataIDDictionary[ID] = 0;
         }
     }
 

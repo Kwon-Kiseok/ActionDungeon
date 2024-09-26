@@ -25,6 +25,7 @@ public class Units : MonoBehaviour
         }
     }
     [SerializeField] private statData _statData;
+    private statData _bonusStatData;
 
     private int _actionPoint = 0;
     public int ActionPoint => _actionPoint;
@@ -57,7 +58,6 @@ public class Units : MonoBehaviour
             _stateMachine = new StateMachine(this);
         }
 
-        // ��� �� ���� ������Ʈ �ı� -> ? BattleManager���� CurrentEnemy ���ŵ� �ؾ� ��
         unitRenderer.DeleteUnitSubject.Subscribe((_) =>
         {
             if (IsAlive == false)
@@ -77,9 +77,34 @@ public class Units : MonoBehaviour
         _actionPosition = actionPosition;
     }
 
-    public statData GetStatData()
+    public statData GetOriginStatData()
     {
         return _statData;
+    }
+
+    public statData GetBonusStatData()
+    {
+        return _bonusStatData;
+    }
+
+    public void AddBonusStatData(statData newBonusStat)
+    {
+        _bonusStatData.hp += newBonusStat.hp;
+        _bonusStatData.atk += newBonusStat.atk;
+        _bonusStatData.def += newBonusStat.def;
+        _bonusStatData.luk += newBonusStat.luk;
+    }
+
+    public statData GetTotalStatData()
+    {
+        statData totalStat = new statData(
+            _statData.hp + _bonusStatData.hp,
+            _statData.atk + _bonusStatData.atk,
+            _statData.def + _bonusStatData.def,
+            _statData.luk + _bonusStatData.luk,
+            null
+            );
+        return totalStat;
     }
 
     public void AddActionPoint(int addPoint)

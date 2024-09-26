@@ -1,4 +1,6 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UniRx;
 
 public class ActionEnhanceBonus : MonoBehaviour
 {
@@ -11,8 +13,20 @@ public class ActionEnhanceBonus : MonoBehaviour
 
     private const int maxCount = 3;
 
+    private Player _player;
+
     private void Start() {
         successCountUI.DeActivateIconImages();
+    }
+
+    public void SetPlayer(Player player)
+    {
+        _player = player;
+
+        draftSystemUI.OnSelectBonusStatSubject.Subscribe((bonus) => {
+            _player.AddBonusStatData(bonus.GetStatData());
+            _player.OnSelectBonusStatSubject.OnNext(Unit.Default);
+        }).AddTo(this);
     }
 
     public void IncreaseSuccessCount()

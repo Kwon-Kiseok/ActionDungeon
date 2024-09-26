@@ -73,8 +73,14 @@ public class BattleManager : MonoBehaviour
             _player = _gameInitializer.Player;
             _player.SetActionPosition(_playerActionPosition);
             _unitStatUIPanel.InitializeUnitStatUI(_player);
+            actionEnhanceBonus.SetPlayer(_player);
 
             _player.OnActionEnd.Subscribe((_) =>
+            {
+                _unitStatUIPanel.UpdateUnitStatUI(_player, _currentEnemy);
+            }).AddTo(this);
+
+            _player.OnSelectBonusStatSubject.Subscribe((_) =>
             {
                 _unitStatUIPanel.UpdateUnitStatUI(_player, _currentEnemy);
             }).AddTo(this);
@@ -159,8 +165,8 @@ public class BattleManager : MonoBehaviour
         {
             return;
         }
-        _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetStatData().luk);
-        _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
+        _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetTotalStatData().luk);
+        _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk);
     }
     
     private void DefenceActionEvent()
@@ -169,8 +175,8 @@ public class BattleManager : MonoBehaviour
         {
             return;
         }
-        _player.CharacterController.DoDefenceAction(_player, _player.GetStatData().luk);
-        _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
+        _player.CharacterController.DoDefenceAction(_player, _player.GetTotalStatData().luk);
+        _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk);
     }
 
     private void DodgeActionEvent()
@@ -179,7 +185,7 @@ public class BattleManager : MonoBehaviour
         {
             return;
         }
-        _player.CharacterController.DoDodgeAction(_player, _player.GetStatData().luk);
-        _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetStatData().luk);
+        _player.CharacterController.DoDodgeAction(_player, _player.GetTotalStatData().luk);
+        _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk);
     }
 }

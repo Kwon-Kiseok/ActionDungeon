@@ -80,7 +80,7 @@ public class DraftSystemUI : MonoBehaviour
         }
     }
 
-    private void CloseUI()
+    public void CloseUI()
     {
         _panelObject.SetActive(false);
     }

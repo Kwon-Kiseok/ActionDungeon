@@ -138,12 +138,14 @@ public class BattleManager : MonoBehaviour
                 Debug.Log("Player Win !!");
                 _battleState = BattleState.END;
                 battleResultUI.BattleResultEnable(_player);
+                actionEnhanceBonus.CloseDraftSystemUI();
             }
             else if (!_player.IsAlive)
             {
                 Debug.Log("Player Lose TT");
                 _battleState = BattleState.END;
                 battleResultUI.BattleResultEnable(_player);
+                actionEnhanceBonus.CloseDraftSystemUI();
             }
         }
     }

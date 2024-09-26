@@ -51,4 +51,10 @@ public class ActionEnhanceBonus : MonoBehaviour
         draftSystemUI.PanelObject.SetActive(true);
         successCountUI.DeActivateIconImages();
     }
+
+    public void CloseDraftSystemUI()
+    {
+        draftSystemUI.CloseUI();
+        successCountUI.DeActivateIconImages();
+    }
 }

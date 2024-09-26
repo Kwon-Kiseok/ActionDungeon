@@ -31,8 +31,30 @@ public class SelectOptionUnit : MonoBehaviour
 
     public void SetOptionInfo(EnhaceBonus enhaceBonus)
     {
+        optionNameText.text = "";
        _enhaceBonus = enhaceBonus;
+        SetRarityColor(_enhaceBonus.GetRarity());
        optionNameText.text = enhaceBonus.GetStatName();
+    }
+
+    private void SetRarityColor(EnhaceBonus.Rarity rarity)
+    {
+        if(rarity == EnhaceBonus.Rarity.NORMAL)
+        {
+            optionIconImage.color = Color.white;
+        }
+        else if(rarity == EnhaceBonus.Rarity.RARE)
+        {
+            optionIconImage.color = Color.blue;
+        }
+        else if(rarity == EnhaceBonus.Rarity.UNIQUE)
+        {
+            optionIconImage.color = Color.magenta;
+        }
+        else if(rarity == EnhaceBonus.Rarity.LEGENDARY)
+        {
+            optionIconImage.color = Color.yellow;
+        }
     }
 
     public EnhaceBonus GetEnhanceBonus()

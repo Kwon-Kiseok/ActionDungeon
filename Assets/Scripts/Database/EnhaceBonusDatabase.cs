@@ -51,19 +51,19 @@ public class EnhaceBonusDatabase
 
         for(int i = 0; i < strings.Count; i++)
         {
-            if(strings[i].Equals("HP"))
+            if(string.Compare(strings[i], "HP") == 0)
             {
                 statData.hp = valuse[i];
             }
-            else if(strings[i].Equals("ATK"))
+            else if(string.Compare(strings[i], "ATK") == 0)
             {
                 statData.atk = valuse[i];
             }
-            else if(strings[i].Equals("DEF"))
+            else if(string.Compare(strings[i], "DEF") == 0)
             {
                 statData.def = valuse[i];
             }
-            else if(strings[i].Equals("LUK"))
+            else if(string.Compare(strings[i], "LUK") == 0)
             {
                 statData.luk = valuse[i];
             }

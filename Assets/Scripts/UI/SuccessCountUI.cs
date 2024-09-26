@@ -8,7 +8,6 @@ public class SuccessCountUI : MonoBehaviour
 {
     [SerializeField] private List<Image> successIconImages = new List<Image>();
 
-
     public void ActivateIconImage(int count)
     {
         int iconIndex = count - 1;

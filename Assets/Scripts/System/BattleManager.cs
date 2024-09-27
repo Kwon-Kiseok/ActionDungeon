@@ -17,6 +17,7 @@ public class BattleManager : MonoBehaviour
 
     private EnemySpawner _enemySpawner;
     private GameInitializer _gameInitializer;
+    private TurnClockSystem _turnClockSystem;
 
     private BattleState _battleState = BattleState.READY;
     public BattleState BState => _battleState;
@@ -39,10 +40,11 @@ public class BattleManager : MonoBehaviour
     public Subject<Unit> OnActionSubject = new Subject<Unit>();
 
     [Inject]
-    public void Inject(GameInitializer gameInitializer, EnemySpawner enemySpawner)
+    public void Inject(GameInitializer gameInitializer, EnemySpawner enemySpawner, TurnClockSystem turnClockSystem)
     {
         _gameInitializer = gameInitializer;
         _enemySpawner = enemySpawner;
+        _turnClockSystem = turnClockSystem;
     }
 
     public void Start()
@@ -169,8 +171,18 @@ public class BattleManager : MonoBehaviour
         {
             return;
         }
-        _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetTotalStatData().luk);
-        _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk);
+
+        if(_turnClockSystem.IsDays)
+        {
+            _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetTotalStatData().luk);
+            _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk * 0.5f);
+        }
+        else
+        {
+            _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetTotalStatData().luk * 0.5f);
+            _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk);
+        }
+
         OnActionSubject.OnNext(Unit.Default);
     }
     
@@ -180,8 +192,18 @@ public class BattleManager : MonoBehaviour
         {
             return;
         }
-        _player.CharacterController.DoDefenceAction(_player, _player.GetTotalStatData().luk);
-        _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk);
+
+        if (_turnClockSystem.IsDays)
+        {
+            _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetTotalStatData().luk);
+            _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk * 0.5f);
+        }
+        else
+        {
+            _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetTotalStatData().luk * 0.5f);
+            _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk);
+        }
+
         OnActionSubject.OnNext(Unit.Default);
     }
 
@@ -191,8 +213,18 @@ public class BattleManager : MonoBehaviour
         {
             return;
         }
-        _player.CharacterController.DoDodgeAction(_player, _player.GetTotalStatData().luk);
-        _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk);
+
+        if (_turnClockSystem.IsDays)
+        {
+            _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetTotalStatData().luk);
+            _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk * 0.5f);
+        }
+        else
+        {
+            _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetTotalStatData().luk * 0.5f);
+            _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk);
+        }
+
         OnActionSubject.OnNext(Unit.Default);
     }
 }

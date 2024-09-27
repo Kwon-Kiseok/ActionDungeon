@@ -9,6 +9,7 @@ public class TurnClockSystem : MonoBehaviour
 
     private int _turnCount = 5;
     private bool _isDays = true;
+    public bool IsDays => _isDays;
 
     private BattleManager _battleManager;
 

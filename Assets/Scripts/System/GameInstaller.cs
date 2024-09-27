@@ -19,6 +19,7 @@ public class GameInstaller : MonoInstaller
     private void InstallHierachyObjects()
     {
         Container.Bind<BattleManager>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<TurnClockSystem>().FromComponentInHierarchy().AsSingle();
     }
 
     private void InstallDatabases()

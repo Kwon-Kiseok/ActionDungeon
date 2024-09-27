@@ -36,6 +36,8 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private ActionEnhanceBonus actionEnhanceBonus;
     [SerializeField] private BattleResultUI battleResultUI;
 
+    public Subject<Unit> OnActionSubject = new Subject<Unit>();
+
     [Inject]
     public void Inject(GameInitializer gameInitializer, EnemySpawner enemySpawner)
     {
@@ -169,6 +171,7 @@ public class BattleManager : MonoBehaviour
         }
         _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetTotalStatData().luk);
         _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk);
+        OnActionSubject.OnNext(Unit.Default);
     }
     
     private void DefenceActionEvent()
@@ -179,6 +182,7 @@ public class BattleManager : MonoBehaviour
         }
         _player.CharacterController.DoDefenceAction(_player, _player.GetTotalStatData().luk);
         _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk);
+        OnActionSubject.OnNext(Unit.Default);
     }
 
     private void DodgeActionEvent()
@@ -189,5 +193,6 @@ public class BattleManager : MonoBehaviour
         }
         _player.CharacterController.DoDodgeAction(_player, _player.GetTotalStatData().luk);
         _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk);
+        OnActionSubject.OnNext(Unit.Default);
     }
 }

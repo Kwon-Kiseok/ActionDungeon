@@ -14,7 +14,6 @@ public class AttackAct : IAction
         if(!SuccessRateCalculator.CalculateSucess(successRate))
         {
             Debug.Log("Attack Action Fail");
-            // AP 1ȹ��
             if(actUnit is Player)
             {
                 Debug.Log("Action Point + 1");

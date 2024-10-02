@@ -14,9 +14,11 @@ public class UnitRenderer : MonoBehaviour
     public Subject<Unit> DeathAnimationEndSubject = new Subject<Unit>();
     public Subject<Unit> DeleteUnitSubject = new Subject<Unit>();
 
+    [SerializeField] private ParticleSystem defenceParticle;
+    [SerializeField] private ParticleSystem hitParticle;
+
     private void Start()
     {
-        // 사망 애니메이션 종료 2초 후 유닛 모습 안보이도록
         this.DeathAnimationEndSubject.Subscribe(async (_) =>
         {
             await UniTask.WaitForSeconds(2f);
@@ -46,7 +48,11 @@ public class UnitRenderer : MonoBehaviour
 
     public void DoDefenceAnim()
     {
-
+        if(defenceParticle.isPlaying)
+        {
+            defenceParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
+        defenceParticle.Play();
     }
 
     public void DoDodgeAnim()
@@ -65,9 +71,12 @@ public class UnitRenderer : MonoBehaviour
 
     public void DoHitAnim()
     {
-        // 흰색 or 붉은색 + 반투명으로 이미지가 깜빡 거리는 연출이 들어가면 좋을 것 같음
-        // ex. 록맨 피격 연출
-        
+        if (hitParticle.isPlaying)
+        {
+            hitParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
+        hitParticle.Play();
+
         spriteRenderer.color = Color.red;
 
         Sequence seq = DOTween.Sequence();

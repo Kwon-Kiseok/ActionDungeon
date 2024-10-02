@@ -203,7 +203,14 @@ public class Units : MonoBehaviour
             return;
         }
 
-        unitRenderer.DoHitAnim();
+        if(StateMachine.CurrentState is DefenceState)
+        {
+            unitRenderer.DoDefenceAnim();
+        }
+        else
+        {
+            unitRenderer.DoHitAnim();
+        }
     }
 
     public void Dead()

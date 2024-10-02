@@ -9,19 +9,19 @@ public class CharacterController : MonoBehaviour
     public void DoAttackAction(Units actUnit, Units targetUnit, float successRate)
     {
         _attackAct.SetTargetUnit(targetUnit);
-        float calculateSuccessRate = successRate + (0.25f * actUnit.ActionPoint);
+        float calculateSuccessRate = successRate + (0.15f * actUnit.ActionPoint);
         _attackAct.Act(actUnit, calculateSuccessRate);
     }
 
     public void DoDefenceAction(Units actUnit, float successRate)
     {
-        float calculateSuccessRate = successRate + (0.25f * actUnit.ActionPoint);
+        float calculateSuccessRate = successRate + (0.15f * actUnit.ActionPoint);
         _defenceAct.Act(actUnit, calculateSuccessRate);
     }
 
     public void DoDodgeAction(Units actUnit, float successRate)
     {
-        float calculateSuccessRate = successRate + (0.25f * actUnit.ActionPoint);
+        float calculateSuccessRate = successRate + (0.15f * actUnit.ActionPoint);
         _dodgeAct.Act(actUnit, calculateSuccessRate);
     }
 
@@ -29,7 +29,7 @@ public class CharacterController : MonoBehaviour
     {
         int actionNumber = UnityEngine.Random.Range(0, 3);
 
-        float calculateSuccessRate = successRate + (0.25f * actUnit.ActionPoint);
+        float calculateSuccessRate = successRate + (0.15f * actUnit.ActionPoint);
 
         switch (actionNumber)
         {

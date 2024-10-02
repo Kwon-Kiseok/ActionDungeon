@@ -28,7 +28,7 @@ public class AttackState : IState
 
     public void ExecuteState()
     {
-        // ¸Â°ø°ÝÀÎ »óÈ²ÀÌ°Å³ª ¾×¼Ç ½ÇÆÐÀÎ °æ¿ì¿¡ »ó´ë À¯´Ö¿¡ Hit ÆÇÁ¤À» ³»¸²
+        // ï¿½Â°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È²ï¿½Ì°Å³ï¿½ ï¿½×¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö¿ï¿½ Hit ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if(_targetUnit.StateMachine.CurrentState is AttackState || _targetUnit.StateMachine.CurrentState is FailState)
         {
             Debug.Log(_targetUnit.unitName + " hit to " + _unit.unitName);

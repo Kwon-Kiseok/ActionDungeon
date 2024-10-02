@@ -124,7 +124,6 @@ public class BattleManager : MonoBehaviour
             _unitStatUIPanel.UpdateUnitStatUI(_player, _currentEnemy);
         });
 
-        // 임시
         _battleState = BattleState.PROGRESS;
     }
 
@@ -195,12 +194,12 @@ public class BattleManager : MonoBehaviour
 
         if (_turnClockSystem.IsDays)
         {
-            _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetTotalStatData().luk);
+            _player.CharacterController.DoDefenceAction(_player, _player.GetTotalStatData().luk);
             _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk * 0.5f);
         }
         else
         {
-            _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetTotalStatData().luk * 0.5f);
+            _player.CharacterController.DoDefenceAction(_player,_player.GetTotalStatData().luk * 0.5f);
             _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk);
         }
 
@@ -216,12 +215,12 @@ public class BattleManager : MonoBehaviour
 
         if (_turnClockSystem.IsDays)
         {
-            _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetTotalStatData().luk);
+            _player.CharacterController.DoDodgeAction(_player, _player.GetTotalStatData().luk);
             _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk * 0.5f);
         }
         else
         {
-            _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetTotalStatData().luk * 0.5f);
+            _player.CharacterController.DoDodgeAction(_player, _player.GetTotalStatData().luk * 0.5f);
             _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk);
         }
 

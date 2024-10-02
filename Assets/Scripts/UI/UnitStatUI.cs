@@ -11,12 +11,22 @@ public class UnitStatUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI lukText;
     [SerializeField] private TextMeshProUGUI apText;
 
-    public void SetStatus(Units.statData status)
+    public void SetStatus(Units.statData status, bool isDaysDeBuff)
     {
         hpText.text = string.Format($"HP: {status.hp.ToString()}");
         atkText.text = string.Format($"ATK: {status.atk.ToString()}");
         defText.text = string.Format($"DEF: {status.def.ToString()}");
-        lukText.text = string.Format($"LUK: {status.luk.ToString()}");
+
+        if(isDaysDeBuff)
+        {
+            lukText.color = Color.red;
+            lukText.text = string.Format($"LUK: {(status.luk * 0.5f).ToString()}");
+        }
+        else
+        {
+            lukText.color = Color.white;
+            lukText.text = string.Format($"LUK: {status.luk.ToString()}");
+        }
     }
 
     public void SetAPUI(int actionPoint)

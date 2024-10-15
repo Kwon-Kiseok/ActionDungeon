@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 32b2ef3ee53ec2146ba12a844de4b2ab
   m_SerializeEntries:
+  - m_GUID: 02ff8a694d5892e489e4baea9d26ab80
+    m_Address: Unit_Portrait/Goblin
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bc1f6369ae7157142b73f96b507d5dd1
     m_Address: Player/Player_Object
     m_ReadOnly: 0

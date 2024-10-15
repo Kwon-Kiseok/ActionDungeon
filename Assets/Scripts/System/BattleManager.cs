@@ -18,6 +18,7 @@ public class BattleManager : MonoBehaviour
     private EnemySpawner _enemySpawner;
     private GameInitializer _gameInitializer;
     private TurnClockSystem _turnClockSystem;
+    private BattleReadyUI _battleReadyUI;
 
     private BattleState _battleState = BattleState.READY;
     public BattleState BState => _battleState;
@@ -40,17 +41,18 @@ public class BattleManager : MonoBehaviour
     public Subject<Unit> OnActionSubject = new Subject<Unit>();
 
     [Inject]
-    public void Inject(GameInitializer gameInitializer, EnemySpawner enemySpawner, TurnClockSystem turnClockSystem)
+    public void Inject(GameInitializer gameInitializer, EnemySpawner enemySpawner, TurnClockSystem turnClockSystem, BattleReadyUI battleReadyUI)
     {
         _gameInitializer = gameInitializer;
         _enemySpawner = enemySpawner;
         _turnClockSystem = turnClockSystem;
+        _battleReadyUI = battleReadyUI;
     }
 
     public void Start()
     {
         InitPlayer();
-        InitEnemy();
+        MatchingNewEnemy();
         UniRxUpdate();
         ButtonsEventAllocate();
     }
@@ -95,19 +97,13 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private void InitEnemy()
-    {
-        if (_currentEnemy is null)
-        {
-            MatchingEnemy(_enemySpawner?.SpawnNewEnemy("Enemy/Enemy_Goblin", _enemySpawnPosition));
-        }
-    }
-
     private void MatchingNewEnemy()
     {
         if (_currentEnemy is null)
         {
             MatchingEnemy(_enemySpawner?.SpawnNewEnemy("Enemy/Enemy_Goblin", _enemySpawnPosition));
+            _battleReadyUI.SetEnemyInfoUI(_currentEnemy);
+            _battleReadyUI.IntroduceNextEnemy();
         }
     }
 

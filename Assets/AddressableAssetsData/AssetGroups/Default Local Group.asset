@@ -15,13 +15,33 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 32b2ef3ee53ec2146ba12a844de4b2ab
   m_SerializeEntries:
+  - m_GUID: 0233f966fcce7e44e86344636f7b3567
+    m_Address: Unit_Portrait/Mushroom
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 02ff8a694d5892e489e4baea9d26ab80
     m_Address: Unit_Portrait/Goblin
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 32b0a4090b11602498c9070e32c6049d
+    m_Address: Unit_Portrait/Skeleton
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ab15ee4234312aa41ab97e384430d32a
+    m_Address: Enemy/Enemy_Mushroom
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bc1f6369ae7157142b73f96b507d5dd1
     m_Address: Player/Player_Object
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ff38bdd627492384e8bce8209ca8e5a9
+    m_Address: Enemy/Enemy_Skeleton
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

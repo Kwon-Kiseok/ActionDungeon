@@ -116,7 +116,7 @@ public class BattleManager : MonoBehaviour
         if (_currentEnemy is null)
         {
             _enemySpawner.InitSpawner();
-            MatchingEnemy(_enemySpawner?.SpawnNewEnemy(1001, _enemySpawnPosition));
+            MatchingEnemy(_enemySpawner?.SpawnNewEnemy(_enemySpawnPosition));
             _battleReadyUI.SetEnemyInfoUI(_currentEnemy);
             _battleReadyUI.IntroduceNextEnemy();
         }

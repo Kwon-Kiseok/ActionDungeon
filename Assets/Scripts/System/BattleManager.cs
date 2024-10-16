@@ -2,6 +2,7 @@ using UnityEngine;
 using UniRx;
 using Zenject;
 using UniRx.Triggers;
+using Cysharp.Threading.Tasks;
 
 public class BattleManager : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class BattleManager : MonoBehaviour
 
     private BattleState _battleState = BattleState.READY;
     public BattleState BState => _battleState;
-    
+
     [SerializeField] private Transform _enemySpawnPosition;
     [SerializeField] private Transform _playerActionPosition;
     [SerializeField] private Transform _enemyActionPosition;
@@ -55,6 +56,7 @@ public class BattleManager : MonoBehaviour
         MatchingNewEnemy();
         UniRxUpdate();
         ButtonsEventAllocate();
+        BattleResultEvent();
     }
 
     private void UniRxUpdate()
@@ -91,10 +93,20 @@ public class BattleManager : MonoBehaviour
                 _unitStatUIPanel.UpdateUnitStatUI(_player, _currentEnemy);
             }).AddTo(this);
 
-            _player.ActionSuccessSubject.Subscribe((_) => {
+            _player.ActionSuccessSubject.Subscribe((_) =>
+            {
                 actionEnhanceBonus.IncreaseSuccessCount();
             }).AddTo(this);
         }
+    }
+
+    private void BattleResultEvent()
+    {
+        battleResultUI.OnNextBattleSubject.Subscribe((_) =>
+        {
+            ReleaseCurrentEnemy();
+            PrepareNextBattle();
+        }).AddTo(this);
     }
 
     private void MatchingNewEnemy()
@@ -105,6 +117,12 @@ public class BattleManager : MonoBehaviour
             _battleReadyUI.SetEnemyInfoUI(_currentEnemy);
             _battleReadyUI.IntroduceNextEnemy();
         }
+    }
+
+    private void ReleaseCurrentEnemy()
+    {
+        Destroy(_enemySpawner.EnemyInstance);
+        _currentEnemy = null;
     }
 
     private void MatchingEnemy(Enemy nextEnemy)
@@ -125,7 +143,7 @@ public class BattleManager : MonoBehaviour
 
     private void CheckBattleEnd()
     {
-        if(BState != BattleState.PROGRESS)
+        if (BState != BattleState.PROGRESS)
         {
             return;
         }
@@ -151,11 +169,6 @@ public class BattleManager : MonoBehaviour
 
     private void PrepareNextBattle()
     {
-        if(BState != BattleState.END)
-        {
-            return;
-        }
-
         _battleState = BattleState.READY;
         MatchingNewEnemy();
     }
@@ -167,7 +180,7 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        if(_turnClockSystem.IsDays)
+        if (_turnClockSystem.IsDays)
         {
             _player.CharacterController.DoAttackAction(_player, _currentEnemy, _player.GetTotalStatData().luk);
             _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk * 0.5f);
@@ -180,7 +193,7 @@ public class BattleManager : MonoBehaviour
 
         OnActionSubject.OnNext(Unit.Default);
     }
-    
+
     private void DefenceActionEvent()
     {
         if (BState != BattleState.PROGRESS)
@@ -195,7 +208,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            _player.CharacterController.DoDefenceAction(_player,_player.GetTotalStatData().luk * 0.5f);
+            _player.CharacterController.DoDefenceAction(_player, _player.GetTotalStatData().luk * 0.5f);
             _currentEnemy.CharacterController.RandomAction(_currentEnemy, _player, _currentEnemy.GetTotalStatData().luk);
         }
 

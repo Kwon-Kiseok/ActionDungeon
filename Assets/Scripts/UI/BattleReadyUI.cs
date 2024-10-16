@@ -3,10 +3,12 @@ using UnityEngine.UI;
 using TMPro;
 using System.Text;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 
 public class BattleReadyUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI enemyNameText;
+    [SerializeField] private Image bgImage;
     [SerializeField] private Image enemyPortraitImage;
     [SerializeField] private Image touchGuardImage;
     [SerializeField] private GameObject enemyIntroduceObject;
@@ -28,7 +30,9 @@ public class BattleReadyUI : MonoBehaviour
         touchGuardImage.enabled = true;
 
         // *인트로 연출 추가*
-        await UniTask.WaitForSeconds(2f);
+        ReadyAnimation();
+
+        await UniTask.WaitForSeconds(5f);
         CloseUI();
     }
 
@@ -36,6 +40,34 @@ public class BattleReadyUI : MonoBehaviour
     {
         enemyIntroduceObject.SetActive(false);
         touchGuardImage.enabled = false;
+    }
+
+    private void ReadyAnimation() 
+    {
+        bgImage.DOFade(0.0f, 0f);
+        enemyPortraitImage.DOFade(0.0f, 0f);
+        enemyNameText.DOFade(0.0f, 0f);
+
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(bgImage.DOFade(1.0f, 1f))
+        .Join(enemyPortraitImage.DOFade(1.0f, 1f))
+        .Join(enemyNameText.DOFade(1.0f, 1f))
+        .OnComplete(async () => {
+            await UniTask.WaitForSeconds(2f);
+            CloseAnimation();
+        });
+
+        sequence.Play();
+    }
+
+    private void CloseAnimation()
+    {
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(bgImage.DOFade(0.0f, 1f))
+        .Join(enemyPortraitImage.DOFade(0.0f, 1f))
+        .Join(enemyNameText.DOFade(0.0f, 1f));
+
+        sequence.Play();
     }
 
 }

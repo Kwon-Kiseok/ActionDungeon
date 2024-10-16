@@ -7,6 +7,9 @@ public class BattleResultUI : MonoBehaviour
     [SerializeField] private GameObject victoryPanelObject;
     [SerializeField] private GameObject losePanelObject;
 
+    public Subject<Unit> OnNextBattleSubject = new Subject<Unit>();
+    // public Subject<Unit> OnGameOverSubject = new Subject<Unit>();
+
     public void BattleResultEnable(Player player)
     {
         if(player.IsAlive)
@@ -34,8 +37,16 @@ public class BattleResultUI : MonoBehaviour
     public void ConfirmUI()
     {
         if(losePanelObject.activeSelf)
+        {
             losePanelObject.SetActive(false);
+            // go to game result or main title scene
+            
+            // OnGameOverSubject.OnNext(Unit.Default);
+        }
         if(victoryPanelObject.activeSelf)
+        {
             victoryPanelObject.SetActive(false);
+            OnNextBattleSubject.OnNext(Unit.Default);
+        }
     }
 }

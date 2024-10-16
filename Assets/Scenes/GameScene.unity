@@ -7343,6 +7343,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2131611455}
   - component: {fileID: 2131611456}
+  - component: {fileID: 2131611457}
   m_Layer: 5
   m_Name: GameProgress_UI_Panel
   m_TagString: Untagged
@@ -7378,6 +7379,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2131611454}
   m_CullTransparentMesh: 1
+--- !u!114 &2131611457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131611454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df75a6560f5d27e40beaf7a737e4db6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  killedEnemyCountText: {fileID: 1607959813}
 --- !u!1001 &4157678528289791474
 PrefabInstance:
   m_ObjectHideFlags: 0

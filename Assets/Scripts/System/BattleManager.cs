@@ -20,6 +20,7 @@ public class BattleManager : MonoBehaviour
     private GameInitializer _gameInitializer;
     private TurnClockSystem _turnClockSystem;
     private BattleReadyUI _battleReadyUI;
+    private GameProgressUI _gameProgressUI;
 
     private BattleState _battleState = BattleState.READY;
     public BattleState BState => _battleState;
@@ -42,12 +43,13 @@ public class BattleManager : MonoBehaviour
     public Subject<Unit> OnActionSubject = new Subject<Unit>();
 
     [Inject]
-    public void Inject(GameInitializer gameInitializer, EnemySpawner enemySpawner, TurnClockSystem turnClockSystem, BattleReadyUI battleReadyUI)
+    public void Inject(GameInitializer gameInitializer, EnemySpawner enemySpawner, TurnClockSystem turnClockSystem, BattleReadyUI battleReadyUI, GameProgressUI gameProgressUI)
     {
         _gameInitializer = gameInitializer;
         _enemySpawner = enemySpawner;
         _turnClockSystem = turnClockSystem;
         _battleReadyUI = battleReadyUI;
+        _gameProgressUI = gameProgressUI;
     }
 
     public void Start()
@@ -153,6 +155,7 @@ public class BattleManager : MonoBehaviour
             if (_player.IsAlive && !_currentEnemy.IsAlive)
             {
                 Debug.Log("Player Win !!");
+                _gameProgressUI.AddKilledEnemyCount(1);
                 _battleState = BattleState.END;
                 battleResultUI.BattleResultEnable(_player);
                 actionEnhanceBonus.CloseDraftSystemUI();

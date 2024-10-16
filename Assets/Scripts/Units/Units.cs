@@ -210,6 +210,7 @@ public class Units : MonoBehaviour
         else
         {
             unitRenderer.DoHitAnim();
+            unitRenderer.DamageTextAnim(hitDamage);
         }
     }
 

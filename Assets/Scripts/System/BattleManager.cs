@@ -115,7 +115,8 @@ public class BattleManager : MonoBehaviour
     {
         if (_currentEnemy is null)
         {
-            MatchingEnemy(_enemySpawner?.SpawnNewEnemy("Enemy/Enemy_Goblin", _enemySpawnPosition));
+            _enemySpawner.InitSpawner();
+            MatchingEnemy(_enemySpawner?.SpawnNewEnemy(1001, _enemySpawnPosition));
             _battleReadyUI.SetEnemyInfoUI(_currentEnemy);
             _battleReadyUI.IntroduceNextEnemy();
         }

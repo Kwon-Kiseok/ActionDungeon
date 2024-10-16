@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Enemy : Units
 {
-    public override void Init(string unitName, statData statData)
+    public override void Init(statData statData)
     {
-        base.Init(unitName, statData);
+        base.Init(statData);
     }
 }

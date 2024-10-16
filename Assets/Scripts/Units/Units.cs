@@ -8,15 +8,17 @@ public class Units : MonoBehaviour
     public string unitName;
     public struct statData
     {
+        public string name;
         public float hp;   
-        public float atk;   
+        public float atk;
         public float def;   
         public float luk;
 
         public string desc;
 
-        public statData(float hp, float atk, float def, float luk, string desc = null)
+        public statData(string name, float hp, float atk, float def, float luk, string desc = null)
         {
+            this.name = name;
             this.hp = hp;
             this.atk = atk;
             this.def = def;
@@ -46,7 +48,7 @@ public class Units : MonoBehaviour
     private Transform _actionPosition;
     private Vector3 _unitPosition;
 
-    public virtual void Init(string unitName, statData statData) 
+    public virtual void Init(statData statData) 
     {
         _statData = statData;
     }
@@ -98,6 +100,7 @@ public class Units : MonoBehaviour
     public statData GetTotalStatData()
     {
         statData totalStat = new statData(
+            _statData.name,
             _statData.hp + _bonusStatData.hp,
             _statData.atk + _bonusStatData.atk,
             _statData.def + _bonusStatData.def,

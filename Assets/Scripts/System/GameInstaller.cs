@@ -27,5 +27,6 @@ public class GameInstaller : MonoInstaller
     private void InstallDatabases()
     {
         Container.Bind<EnhaceBonusDatabase>().AsSingle();
+        Container.Bind<EnemyDatabase>().AsSingle();
     }
 }

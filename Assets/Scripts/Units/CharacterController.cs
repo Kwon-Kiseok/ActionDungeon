@@ -27,19 +27,19 @@ public class CharacterController : MonoBehaviour
 
     public void RandomAction(Units actUnit, Units targetUnit, float successRate)
     {
-        int actionNumber = UnityEngine.Random.Range(0, 3);
+        int actionNumber = UnityEngine.Random.Range(0, 5);
 
         float calculateSuccessRate = successRate + (0.15f * actUnit.ActionPoint);
 
         switch (actionNumber)
         {
-            case 0:
+            case int n when (0 <= n && n <= 2):
                 DoAttackAction(actUnit, targetUnit, calculateSuccessRate);
             break;
-            case 1:
+            case 3:
                 DoDefenceAction(actUnit, calculateSuccessRate);
             break;
-            case 2:
+            case 4:
                 DoDodgeAction(actUnit, calculateSuccessRate);
             break;
         }

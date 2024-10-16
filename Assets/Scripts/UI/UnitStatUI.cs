@@ -20,12 +20,12 @@ public class UnitStatUI : MonoBehaviour
         if(isDaysDeBuff)
         {
             lukText.color = Color.red;
-            lukText.text = string.Format($"LUK: {(status.luk * 0.5f).ToString()}");
+            lukText.text = string.Format($"LUK: {(status.luk * 0.5f).ToString("F2")}");
         }
         else
         {
             lukText.color = Color.white;
-            lukText.text = string.Format($"LUK: {status.luk.ToString()}");
+            lukText.text = string.Format($"LUK: {status.luk.ToString("F2")}");
         }
     }
 

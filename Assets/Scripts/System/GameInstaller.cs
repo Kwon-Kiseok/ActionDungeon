@@ -22,6 +22,7 @@ public class GameInstaller : MonoInstaller
         Container.Bind<TurnClockSystem>().FromComponentInHierarchy().AsSingle();
         Container.Bind<BattleReadyUI>().FromComponentInHierarchy().AsSingle();
         Container.Bind<GameProgressUI>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<CameraController>().FromComponentInHierarchy().AsSingle();
     }
 
     private void InstallDatabases()

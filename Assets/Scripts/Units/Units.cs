@@ -44,6 +44,7 @@ public class Units : MonoBehaviour
     public CharacterController CharacterController => _characterController;
 
     public Subject<Unit> OnActionEnd = new Subject<Unit>();
+    public Subject<Unit> OnHitSubject = new Subject<Unit>();
 
     private Transform _actionPosition;
     private Vector3 _unitPosition;
@@ -199,6 +200,7 @@ public class Units : MonoBehaviour
 
     public void Hit(float hitDamage)
     {
+        OnHitSubject.OnNext(Unit.Default);
         _statData.hp -= hitDamage;
         if(_statData.hp <= 0)
         {

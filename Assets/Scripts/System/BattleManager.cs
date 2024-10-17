@@ -21,6 +21,7 @@ public class BattleManager : MonoBehaviour
     private TurnClockSystem _turnClockSystem;
     private BattleReadyUI _battleReadyUI;
     private GameProgressUI _gameProgressUI;
+    private CameraController _cameraController;
 
     private BattleState _battleState = BattleState.READY;
     public BattleState BState => _battleState;
@@ -43,13 +44,15 @@ public class BattleManager : MonoBehaviour
     public Subject<Unit> OnActionSubject = new Subject<Unit>();
 
     [Inject]
-    public void Inject(GameInitializer gameInitializer, EnemySpawner enemySpawner, TurnClockSystem turnClockSystem, BattleReadyUI battleReadyUI, GameProgressUI gameProgressUI)
+    public void Inject(GameInitializer gameInitializer, EnemySpawner enemySpawner, TurnClockSystem turnClockSystem, 
+        BattleReadyUI battleReadyUI, GameProgressUI gameProgressUI, CameraController cameraController)
     {
         _gameInitializer = gameInitializer;
         _enemySpawner = enemySpawner;
         _turnClockSystem = turnClockSystem;
         _battleReadyUI = battleReadyUI;
         _gameProgressUI = gameProgressUI;
+        _cameraController = cameraController;
     }
 
     public void Start()
@@ -84,6 +87,10 @@ public class BattleManager : MonoBehaviour
             _player.SetActionPosition(_playerActionPosition);
             _unitStatUIPanel.InitializeUnitStatUI(_player);
             actionEnhanceBonus.SetPlayer(_player);
+
+            _player.OnHitSubject.Subscribe((_) => {
+                _cameraController.SetHitActionFocusCamera();
+            }).AddTo(this);
 
             _player.OnActionEnd.Subscribe((_) =>
             {
@@ -139,7 +146,11 @@ public class BattleManager : MonoBehaviour
         _currentEnemy.OnActionEnd.Subscribe((_) =>
         {
             _unitStatUIPanel.UpdateUnitStatUI(_player, _currentEnemy);
-        });
+        }).AddTo(this);
+
+        _currentEnemy.OnHitSubject.Subscribe((_) => {
+            _cameraController.SetHitActionFocusCamera();
+        }).AddTo(this);
 
         _battleState = BattleState.PROGRESS;
     }

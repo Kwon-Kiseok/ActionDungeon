@@ -91,7 +91,7 @@ public class Units : MonoBehaviour
 
     public void AddBonusStatData(statData newBonusStat)
     {
-        _bonusStatData.hp += newBonusStat.hp;
+        _statData.hp += newBonusStat.hp;
         _bonusStatData.atk += newBonusStat.atk;
         _bonusStatData.def += newBonusStat.def;
         _bonusStatData.luk += newBonusStat.luk;
@@ -101,7 +101,7 @@ public class Units : MonoBehaviour
     {
         statData totalStat = new statData(
             _statData.name,
-            _statData.hp + _bonusStatData.hp,
+            _statData.hp,
             _statData.atk + _bonusStatData.atk,
             _statData.def + _bonusStatData.def,
             _statData.luk + _bonusStatData.luk,

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
+using UnityEngine.SceneManagement;
 
 public class BattleResultUI : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class BattleResultUI : MonoBehaviour
         {
             losePanelObject.SetActive(false);
             // go to game result or main title scene
-            
+            SceneManager.LoadScene("MainScene");
             // OnGameOverSubject.OnNext(Unit.Default);
         }
         if(victoryPanelObject.activeSelf)
